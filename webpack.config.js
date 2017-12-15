@@ -1,9 +1,4 @@
 const path = require('path');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const WebpackShellPlugin = require('webpack-shell-plugin');
-
-const extractSass = new ExtractTextPlugin("style.css");
-const extractHtml = new ExtractTextPlugin("index.html");
 
 module.exports = {
     entry: './src/index.tsx',
@@ -14,8 +9,7 @@ module.exports = {
         publicPath: '/dist/'
     },
     resolve: {
-        // Add `.ts` and `.tsx` as a resolvable extension.
-        extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js', '.sass', '.pug']
+        extensions: ['.ts', '.tsx', '.js']
     },
     module: {
         rules: [
@@ -32,38 +26,11 @@ module.exports = {
             },
             {
                 test: /\.tsx?$/,
-                loader: 'ts-loader'
-            },
-            {
-                test: /\.sass$/,
-                use: extractSass.extract({
-                    use: [{
-                        loader: "css-loader"
-                    }, {
-                        loader: "resolve-url-loader"
-                    }, {
-                        loader: "sass-loader"
-                    }],
-                    fallback: "style-loader"
-                })
-            },
-            {
-                test: /\.html$/,
-                use: extractHtml.extract("html-loader")
+                loader: 'awesome-typescript-loader'
             }
         ]
     },
-    plugins: [
-        extractSass, extractHtml,
-        new WebpackShellPlugin({
-            onBuildStart: [ 
-                'echo "Webpack Start"' 
-            ], 
-            onBuildEnd: [ 
-                'echo "Webpack End"' 
-            ]
-        })
-    ],
+    plugins: [],
     externals: {
         "react": "React",
         "react-dom": "ReactDOM"

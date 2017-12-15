@@ -1,9 +1,9 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-import { Hello } from "./components/hello";
+import { MAIN } from "./components/main";
 
 ReactDOM.render(
-    <Hello compiler="TypeScript" framework="React" />,
-    document.getElementById("example")
+    <MAIN compiler="TypeScript" framework="React" />,
+    document.getElementById("paste.ized.io")
 );

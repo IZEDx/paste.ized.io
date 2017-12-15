@@ -1,11 +1,12 @@
 const path = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const WebpackShellPlugin = require('webpack-shell-plugin');
 
 const extractSass = new ExtractTextPlugin("style.css");
 const extractHtml = new ExtractTextPlugin("index.html");
 
 module.exports = {
-    entry: './src/main.ts',
+    entry: './src/index.tsx',
     devtool: 'eval-source-map',
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -19,13 +20,16 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.ts$/,
+                test: /\.tsx?$/,
                 enforce: 'pre',
                 loader: 'tslint-loader',
                 options: {  }
-            }
-        ],
-        loaders: [
+            },
+            { 
+                enforce: "pre", 
+                test: /\.js$/, 
+                loader: "source-map-loader" 
+            },
             {
                 test: /\.tsx?$/,
                 loader: 'ts-loader'
@@ -46,18 +50,22 @@ module.exports = {
             {
                 test: /\.html$/,
                 use: extractHtml.extract("html-loader")
-            },
-            {
-                test: /\.js$/,
-                loader: 'file-loader'
             }
         ]
     },
     plugins: [
-        extractSass, extractHtml
+        extractSass, extractHtml,
+        new WebpackShellPlugin({
+            onBuildStart: [ 
+                'echo "Webpack Start"' 
+            ], 
+            onBuildEnd: [ 
+                'echo "Webpack End"' 
+            ]
+        })
     ],
     externals: {
-        'fs': true,
-        'path': true
+        "react": "React",
+        "react-dom": "ReactDOM"
     }
 };

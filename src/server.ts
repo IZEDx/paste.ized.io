@@ -7,35 +7,15 @@ import { log }                      from "./libs/utils";
 import { setupCache }               from 'axios-cache-adapter'
 import TypedAxios                   from "restyped-axios";
 import Route from "route-parser";
-import { RecursiveRecord, indexModules } from "./libs/utils";
-import _modules from "./api/**/*.ts";
+import { indexModules } from "./libs/utils";
+import apiModules from "./api/**/*.route.ts";
 
 const path = (...str: string[]) => join(__dirname, ...str);
-
-export interface APIRoute
-{
-    get?: RequestHandler;
-    post?: RequestHandler;
-    put?: RequestHandler;
-    delete?: RequestHandler;
-}
-
-interface _APIRoute extends APIRoute
-{
-    path: string;
-    route: Route;
-}
-
-type APIModule = {
-    default: APIRoute
-};
 
 function isAPIModule(obj: any): obj is APIModule
 {
     return !!obj && !!obj.default && (!!obj.default.get || !!obj.default.post || !!obj.default.put || !!obj.default.delete);
 } 
-
-const apiModules = _modules as unknown as RecursiveRecord<APIModule>;
 
 export async function main()
 {
@@ -50,7 +30,7 @@ export async function main()
         path,
         route: new Route(path),
         ...module.default
-    } as _APIRoute]);
+    } as const]);
 
     console.log(apiRoutes);
 

@@ -1,8 +1,6 @@
-/// <reference path="../client.d.ts" />
-
 import Route from "route-parser";
-import { RecursiveRecord, indexModules } from "./libs/utils";
-import pageModules, {PageModule} from "./pages/**/*.svelte";
+import { indexModules } from "./libs/utils";
+import pageModules from "./pages/**/*.page.svelte";
 
 
 function isPageModule(obj: any): obj is PageModule
@@ -10,15 +8,13 @@ function isPageModule(obj: any): obj is PageModule
     return !!obj && !!obj.default && obj.default.name === "Component";
 } 
 
-
-
 async function main()
 {
     const pages = await indexModules(pageModules, isPageModule, (path, module) => [{
         path,
         route: new Route(path),
         create: (target: HTMLElement) => new module.default({target})
-    } as Page]);
+    } as const]);
 
     const page = pages.find(page => page.route.match(location.pathname));
 

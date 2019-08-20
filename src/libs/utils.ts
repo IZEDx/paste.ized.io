@@ -78,11 +78,6 @@ export function randomSequence(length: number, digits = true, specialChars = tru
 }
 
 
-type _RecursiveRecord<T> = Record<string, T|RecursiveRecord<T>>;
-export interface RecursiveRecord<T> extends _RecursiveRecord<T>
-{
-}
-
 export async function indexModules<T, K>(
     module: T|RecursiveRecord<T>,
     checker: (module: any) => module is T,

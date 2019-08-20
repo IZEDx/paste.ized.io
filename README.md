@@ -1,1 +1,1 @@
-# paste.ized.io
+# svelte-parcel-ts-template

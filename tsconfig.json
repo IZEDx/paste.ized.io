@@ -1,35 +1,22 @@
 {
-    "compileOnSave": true,
     "compilerOptions": {
-        "target": "es5",
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "sourceMap": true,
-        "pretty": true,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "removeComments": true,
-        "strictNullChecks": true,
-        "noImplicitAny": true,
-        "noUnusedLocals": true,
-        "suppressImplicitAnyIndexErrors": true,
-        "lib": [
-            "dom",
-            "es2017",
-            "esnext.asynciterable"
-        ],
-        "plugins": [
-            { 
-                "name": "tslint-language-service",
-                "alwaysShowRuleFailuresAsWarnings": false,
-                "disableNoUnusedVariableRule": true,
-                "supressWhileTypeErrorsPresent": false,
-                "configFile": "./tslint.json"
-            } 
-        ],
-        "outDir": "dist"
+      "allowSyntheticDefaultImports": true,
+      "allowUnreachableCode": false,
+      "declaration": false,  
+      "esModuleInterop": true,
+      "experimentalDecorators": true,
+      "lib": [
+        "dom",
+        "esnext"
+      ],
+      "moduleResolution": "node",
+      "module": "esnext",
+      "target": "es2015",
+      "noUnusedLocals": false,
+      "noUnusedParameters": false,
+      "strict": true
     },
     "exclude": [
-        "node_modules"
-    ] 
-  }
+      "node_modules"
+    ]
+}

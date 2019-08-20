@@ -4,8 +4,6 @@ import { static as serveStatic, Express, Request, Response, NextFunction, Router
 import { join }                     from "path";
 import { json, urlencoded }         from "body-parser";
 import { log }                      from "./libs/utils";
-import { setupCache }               from 'axios-cache-adapter'
-import TypedAxios                   from "restyped-axios";
 import Route from "route-parser";
 import { indexModules } from "./libs/utils";
 import apiModules from "./api/**/*.route.ts";
@@ -31,8 +29,6 @@ export async function main()
         route: new Route(path),
         ...module.default
     } as const]);
-
-    console.log(apiRoutes);
 
     for (const route of apiRoutes)
     {
@@ -71,8 +67,6 @@ function flattenStatics(req: Request, res: Response, next: NextFunction)
     {
         req.url = req.url.substring(req.url.lastIndexOf("/"));
     }
-    
-    log.debug(url, req.url)
 
     next();
 }

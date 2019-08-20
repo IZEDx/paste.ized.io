@@ -92,7 +92,6 @@ async function _indexModules<T, K>(
     transformer: (path: string, module: T) => K[]
 ): Promise<K[]>
 {
-    console.log(path, module);
     if (checker(module))
     {
         return transformer(path, module);

@@ -24,8 +24,6 @@ async function main()
     } else {
         pages.find(page => page.route.match("/404"))!.create(document.body);
     }
-
-    console.log(pages);
 }
 
 main();

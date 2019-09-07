@@ -1,5 +1,6 @@
 <script lang="ts">
-	import {paste} from "../libs/secbin";
+    import {paste} from "../libs/secbin";
+    import Editor from "./Editor.svelte"
 	export let value = "";
     let result: Promise<string>;
 	
@@ -10,20 +11,21 @@
 	}
 </script>
 
-<textarea bind:value></textarea>
-<button on:click="{onPaste}">Paste!</button>
-
-{#await result}
-	Pasting...
-{:then url}
-	{#if url != undefined}
-		URL: {url} <br>
-	{/if}
-{/await}
+<div class="paste">
+    <Editor bind:value id="main"></Editor>
+    <button class="paste" on:click="{onPaste}">Paste!</button>
+    {#await result}
+        Pasting...
+    {:then url}
+        {#if url != undefined}
+            URL: {url} <br>
+        {/if}
+    {/await}
+</div>
 
 <style lang="scss">
-	textarea { 
-		width: 100%; 
-		height: 200px; 
-	}
+    .paste {
+        width: 100%;
+        height: 100%;
+    }
 </style>

@@ -6,6 +6,9 @@ import { join }                     from "path";
 import { json, urlencoded }         from "body-parser";
 import { log }                      from "./libs/utils";
 
+(<any>global).navigator = {
+    userAgent: "Sapper"
+};
 const sapper = require('@sapper/server');
 
 const { PORT, NODE_ENV } = process.env;
@@ -30,6 +33,7 @@ export async function main()
         log.main(`Server started.`);
         log.main(`Listening on port ${PORT}.`);
     });
+
 } 
 
 

@@ -2,23 +2,25 @@ const webpack = require('webpack');
 const path = require('path');
 const config = require('sapper/config/webpack.js');
 const pkg = require('./package.json');
-
-const {
-	preprocess,
-	createEnv,
-	readConfigFile
-} = require("@pyoner/svelte-ts-preprocess");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
 
 const alias = { svelte: path.resolve('node_modules', 'svelte') };
-const extensions = ['.mjs', '.js', '.json', '.svelte', '.html', '.ts', '.tsx'];
+const extensions = ['.mjs', '.js', '.json', '.svelte', '.html', '.ts', '.tsx', '.css'];
 const mainFields = ['svelte', 'module', 'browser', 'main'];
 
 module.exports = {
 	client: {
-		entry: config.client.entry(),
+		entry: {
+			...config.client.entry(),
+			"editor.worker": "monaco-editor/esm/vs/editor/editor.worker.js",
+			"json.worker": "monaco-editor/esm/vs/language/json/json.worker",
+			"css.worker": "monaco-editor/esm/vs/language/css/css.worker",
+			"html.worker": "monaco-editor/esm/vs/language/html/html.worker",
+			"ts.worker": "monaco-editor/esm/vs/language/typescript/ts.worker"
+		},
 		output: config.client.output(),
 		resolve: { alias, extensions, mainFields },
 		module: {
@@ -39,7 +41,19 @@ module.exports = {
 				  test: /\.tsx?$/,
 				  use: 'ts-loader',
 				  exclude: /node_modules/
-				}
+				},
+				{
+					test: /\.css$/,
+					use: [
+						{
+							loader: MiniCssExtractPlugin.loader,
+							options: {
+								hmr: process.env.NODE_ENV === 'development',
+							},
+						},
+						'css-loader',
+					],
+				},
 			]
 		},
 		mode,
@@ -50,6 +64,11 @@ module.exports = {
 				'process.browser': true,
 				'process.env.NODE_ENV': JSON.stringify(mode)
 			}),
+			new MiniCssExtractPlugin({
+			  filename: '[name].css',
+			  chunkFilename: '[id].css',
+			  ignoreOrder: false, // Enable to remove warnings about conflicting order
+			})
 		].filter(Boolean),
 		devtool: dev && 'inline-source-map'
 	},
@@ -78,9 +97,28 @@ module.exports = {
 				  test: /\.tsx?$/,
 				  use: 'ts-loader',
 				  exclude: /node_modules/
-				}
+				},
+				{
+					test: /\.css$/,
+					use: [
+						{
+							loader: MiniCssExtractPlugin.loader,
+							options: {
+								hmr: process.env.NODE_ENV === 'development',
+							},
+						},
+						'css-loader',
+					],
+				},
 			]
 		},
+		plugins: [
+			new MiniCssExtractPlugin({
+			  filename: '[name].css',
+			  chunkFilename: '[id].css',
+			  ignoreOrder: false, // Enable to remove warnings about conflicting order
+			})
+		],
 		mode: process.env.NODE_ENV,
 		performance: {
 			hints: false // it doesn't matter if server.js is large

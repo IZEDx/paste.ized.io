@@ -1,32 +1,7 @@
 
 import chalk from "chalk";
-import { readFile as rF, writeFile as wF } from "fs";
-
 export {chalk};
 
-export function readFile(path: string, defaultContent?: Buffer): Promise<Buffer>
-{
-    return new Promise((res, rej) =>
-        rF(path, (err, data) => 
-            !err 
-            ? res(data) 
-            : (err.code === "ENOENT" && defaultContent !== undefined
-                ? res(defaultContent)
-                : rej(err))
-        )
-    );
-}
-
-export function writeFile(path: string, data: string|Buffer|Uint8Array): Promise<void>
-{
-    return new Promise((res, rej) =>
-        wF(path, data, (err) => 
-            err !== null
-            ? rej(err)
-            : res()
-        )  
-    );
-}
 
 /**
  * Does nothing.
@@ -77,61 +52,5 @@ export function randomSequence(length: number, digits = true, specialChars = tru
     return text;
 }
 
-
-export async function indexModules<T, K>(
-    module: T|RecursiveRecord<T>,
-    checker: (module: any) => module is T,
-    transformer: (path: string, module: T) => K[]
-) {
-    return _indexModules(["", module], checker, transformer);
-}
-
-async function _indexModules<T, K>(
-    [path, module]: [string, T|RecursiveRecord<T>],
-    checker: (module: any) => module is T,
-    transformer: (path: string, module: T) => K[]
-): Promise<K[]>
-{
-    if (checker(module))
-    {
-        return transformer(path, module);
-    }
-    else
-    {
-        const entries = Object.entries(module).map(e => [ buildPath(path, e[0]), e[1] ] as typeof e);
-        const promises = entries.map(async e => await _indexModules(e, checker, transformer));
-        return entries.length === 0 ? [] : flatten(await Promise.all(promises));
-    }
-}
-
-export function flatten<T>(arr: T[][])
-{
-    return arr.reduce((p, v) => [...p, ...v], [] as T[]);
-}
-
-function buildPath(path: string, pagename: string): string
-{
-    if (!path.endsWith(")")) path += "/";
-
-    if (pagename.startsWith("$"))
-    {
-        return path + ":" + pagename.slice(1);
-    }
-
-    if (pagename.startsWith("§"))
-    {
-        return path + "*" + pagename.slice(1);
-    }
-
-    if (pagename.startsWith("_"))
-    {
-        return path + "(" + buildPath("", pagename.slice(1)).slice(1) + "/)";
-    }
-
-    if (pagename === "index")
-    {
-        return path;
-    }
-
-    return path + pagename;
-}
+export const isBrowser = () => typeof window !== "undefined";
+export const isNode = () => !isBrowser();

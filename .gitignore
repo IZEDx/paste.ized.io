@@ -1,5 +1,7 @@
-node_modules
+.DS_Store
+/node_modules/
+/src/node_modules/@sapper/
 yarn-error.log
-.cache
-dist
-paste-db
+/cypress/screenshots/
+/__sapper__/
+/secbin-db/

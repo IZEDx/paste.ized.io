@@ -3,27 +3,29 @@ import AES from "crypto-js/aes";
 import {enc} from "crypto-js";
 import axios from "axios";
 
+export const getId = async () => (await axios.get("./paste.json")).data.id;
+
 export async function paste(msg: string): Promise<string>
 {
-    const id = (await axios.get("./api/paste/id")).data;
+    const id = await getId();
     const salt = await genSalt(10);
     const key = await hash(id, salt);
+
     const cipher = AES.encrypt(msg, key).toString();
 
-    await axios.post("./api/paste/"+id, {cipher});
+    await axios.post(`./paste/${id}.json`, {cipher});
 
-    const url = location.href.split("#")[0] + "#" + salt.slice(7)+id;
+    console.log(location);
+    const url = location.origin + "/" + id + "#" + salt.slice(7);
 
     return url;
 }
 
-export async function read(req: string): Promise<string>
+export async function read(id: string, salt: string): Promise<string>
 {
-    req = "$2a$10$" + req;
-    const id = req.slice(29);
-    const salt = req.slice(0, 29);
+    salt = "$2a$10$" + salt;
     
-    const cipher = (await axios.get("./api/paste/"+id)).data;
+    const cipher = (await axios.get(`./paste/${id}.json`)).data.cipher;
     const key = await hash(id, salt);
 
     const plain = AES.decrypt(cipher, key).toString(enc.Utf8);

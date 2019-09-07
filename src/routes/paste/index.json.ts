@@ -2,19 +2,16 @@ import { Request, Response } from "express";
 import { randomSequence, log } from "../../libs/utils";
 import { db } from "../../libs/db";
 
-export default {
-    async get(req: Request, res: Response)
+export async function get(req: Request, res: Response)
+{
+    let id = "";
+    do 
     {
+        id = randomSequence(10, false, false);
+    } while(await checkId(id));
 
-        let id = "";
-        do 
-        {
-            id = randomSequence(10, false, false);
-        } while(await checkId(id));
-
-        res.send(id);
-    }
-} 
+    res.end(JSON.stringify({id}));
+}
 
 async function checkId(id: string)
 {

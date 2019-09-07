@@ -14,7 +14,8 @@
       "target": "es2015",
       "noUnusedLocals": false,
       "noUnusedParameters": false,
-      "strict": true
+      "strict": true,
+      "types": ["@pyoner/svelte-types"]
     },
     "exclude": [
       "node_modules"

@@ -3,7 +3,7 @@
   "description": "",
   "version": "0.0.1",
   "bin": {
-    "secbin": "./__sapper__/build/index.js"
+    "secbin": "./secbin.js"
   },
   "scripts": {
     "dev": "sapper dev",

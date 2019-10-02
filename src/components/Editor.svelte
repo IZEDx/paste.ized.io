@@ -8,11 +8,16 @@
 
     onMount(async () => 
     {
-        console.log(isBrowser());
         if (isBrowser())
         {
             const {Editor} = await import("../libs/editor");
-            const editor = new Editor(el, value);
+            let editor = new Editor(el, value);
+
+            window.addEventListener("resize", e => {
+                value = editor.value;
+                editor.monaco.dispose();
+                editor = new Editor(el, value);
+            });
         }
     });
 </script>

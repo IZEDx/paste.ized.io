@@ -4,15 +4,8 @@
 	export let segment;
 </script>
 
-<style>
+<style lang="scss">
 
-	main {
-		position: relative;
-		background-color: white;
-		padding: 0;
-		margin: 0;
-		box-sizing: border-box;
-	}
 </style>
 
 <Nav {segment}/>

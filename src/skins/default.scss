@@ -1,0 +1,22 @@
+
+$primary: #920b4b;
+$primary-invert: findColorInvert($primary);
+
+$secondary: #3b0b92;
+$primary-invert: findColorInvert($secondary);
+
+$background: $grey-darker;
+$body-background-color: $background;
+
+$navbar-background-color: $background;
+$navbar-item-color: $white;
+$navbar-item-hover-color: $black;
+$navbar-item-hover-background-color: $grey;
+
+$box-background-color: $grey-darker;
+
+$modal-background-color: rgba($black, 0.3);
+.modal-background
+{
+    backdrop-filter: blur(10px);
+}

@@ -27,8 +27,9 @@ export class Editor
     constructor(public el: HTMLElement, value = "")
     {
         this.monaco = monaco.editor.create(this.el, {
-            value,
-            language: "typescript"
+			value: value,
+            language: 'javascript',
+            theme: "vs-dark"
         });
     }
 

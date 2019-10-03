@@ -3,6 +3,7 @@ const path = require('path');
 const config = require('sapper/config/webpack.js');
 const pkg = require('./package.json');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const preprocess = require('svelte-preprocess');
 
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
@@ -33,7 +34,11 @@ module.exports = {
 							dev,
 							hydratable: true,
 							hotReload: false, // pending https://github.com/sveltejs/svelte/issues/2377
-							preprocess: require('svelte-preprocess')({ /* options */ })
+							preprocess: preprocess({
+								scss: {
+									quiet: true
+								}
+							})
 						}
 					}
 				},
@@ -51,7 +56,20 @@ module.exports = {
 								hmr: process.env.NODE_ENV === 'development',
 							},
 						},
+						'css-loader'
+					],
+				},
+				{
+					test: /\.s[ac]ss$/,
+					use: [
+						{
+							loader: MiniCssExtractPlugin.loader,
+							options: {
+								hmr: process.env.NODE_ENV === 'development',
+							},
+						},
 						'css-loader',
+						'sass-loader'
 					],
 				},
 			]
@@ -89,7 +107,11 @@ module.exports = {
 							css: false,
 							generate: 'ssr',
 							dev,
-							preprocess: require('svelte-preprocess')({ /* options */ })
+							preprocess: preprocess({
+								scss: {
+									quiet: true
+								}
+							})
 						}
 					}
 				},

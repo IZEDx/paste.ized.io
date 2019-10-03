@@ -54,3 +54,5 @@ export function randomSequence(length: number, digits = true, specialChars = tru
 
 export const isBrowser = () => typeof window !== "undefined";
 export const isNode = () => !isBrowser();
+
+export type MaybePromise<T> = T|Promise<T>;

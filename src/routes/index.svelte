@@ -1,9 +1,11 @@
 <svelte:head>
-	<title>Sapper project template</title>
+	<title>Create new paste</title>
 </svelte:head>
 
-<script>
-	import Paste from "../components/Paste.svelte";
+
+<script lang="ts">
+	import {paste} from "../libs/secbin";
+	import Paste from "../components/Paste.svelte"
 </script>
 
-<Paste />
+<Paste value="Hello World"></Paste>

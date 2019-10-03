@@ -1,5 +1,7 @@
 <script>
+	import {trigger} from "../libs/events";
 	export let segment;
+	let expandNav = false;
 </script>
 
 <!---
@@ -9,21 +11,21 @@
 -->
 <nav class="navbar" role="navigation" aria-label="main navigation">
 	<div class="navbar-brand">
-		<a class="navbar-item" href="https://bulma.io">
-			<img src="https://bulma.io/images/bulma-logo.png" width="112" height="28" alt="logo"/>
+		<a class="navbar-item" href=".">
+			<img src="/codebin-logo.png" width="140" height="40" alt="logo"/>
 		</a>
 
-		<span role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+		<span role="button" class="navbar-burger burger" aria-label="menu" aria-expanded={expandNav} on:click={() => expandNav = !expandNav}>
 			<span aria-hidden="true"></span>
 			<span aria-hidden="true"></span> 
 			<span aria-hidden="true"></span>
 		</span>
 	</div>
 
-	<div id="navbarBasicExample" class="navbar-menu">
+	<div class="navbar-menu" class:is-active={expandNav}>
 		<div class="navbar-start">
 			<a class="navbar-item" href=".">
-				Home
+				Create new paste
 			</a>
 
 			<a class="navbar-item" href="about">
@@ -31,14 +33,30 @@
 			</a>
 		</div>
 
-		<div class="navbar-end">
+		<div class="navbar-end is-hidden-touch">
 			<div class="navbar-item">
 				<div class="buttons">
-					<a class="button is-light" href=".">
+					<button class="button is-primary" on:click={() => trigger("paste")}>
 						Paste
-					</a>
+					</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </nav>
+
+<div class="mobile-buttons is-hidden-desktop">
+	<button class="button is-primary" on:click={() => trigger("paste")}>
+		Paste
+	</button>
+</div>
+
+<style lang="scss">
+.mobile-buttons
+{
+	position: fixed;
+	z-index: 10;
+	bottom: 20px;
+	right: 20px;
+}
+</style>

@@ -5,7 +5,6 @@
 </script>
 
 <style lang="scss">
-
 </style>
 
 <Nav {segment}/>

@@ -17,7 +17,7 @@
 </script>
 
 <svelte:head>
-	<title>Sapper project template</title>
+	<title>Codebin - {id}</title>
 </svelte:head>
 
 <Paste bind:value/>

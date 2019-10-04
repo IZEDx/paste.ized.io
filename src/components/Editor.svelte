@@ -43,7 +43,9 @@
     <div class="modal" class:is-active={showLoading}>
         <div class="modal-background"></div>
         <div class="modal-content">
-            <progress class="progress is-info" max="100"></progress>
+            <div class="container">
+                <progress class="progress is-primary" max="100"></progress>
+            </div>
         </div>
     </div>
 </div>

@@ -17,7 +17,7 @@ const path = (...str: string[]) => join(__dirname, ...str);
 
 export async function main()
 {
-    log.name = "secbin";
+    log.name = "codebin";
     log.main("Starting api server...");
 
     const app       = express();

@@ -1,9 +1,9 @@
 {
-  "name": "secbin",
+  "name": "codebin",
   "description": "",
   "version": "0.0.1",
   "bin": {
-    "secbin": "./secbin.js"
+    "secbin": "./codebin.js"
   },
   "scripts": {
     "dev": "sapper dev",

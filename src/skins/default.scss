@@ -3,10 +3,13 @@ $primary: #920b4b;
 $primary-invert: findColorInvert($primary);
 
 $secondary: #3b0b92;
-$primary-invert: findColorInvert($secondary);
+$secondary-invert: findColorInvert($secondary);
 
 $background: $grey-darker;
 $body-background-color: $background;
+
+$link: $primary;
+$link-hover: $primary-invert;
 
 $navbar-background-color: $background;
 $navbar-item-color: $white;

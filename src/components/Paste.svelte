@@ -1,20 +1,43 @@
 <script lang="ts">
     import {paste} from "../libs/secbin";
     import {listen} from "../libs/events";
+    import {sleep} from "../libs/utils";
     import Editor from "./Editor.svelte"
     
     export let value!: string;
 
-    let showResult = false;
     let result: Promise<string>;
-    
+    let urlInput: HTMLInputElement;
 
-    listen("paste", () =>
+    let showResult = false;
+    let isCopying = false;
+    let isCopied = false;
+
+    listen("paste", async () =>
 	{   
         result = paste(value);
+        await result;
         showResult = true;
 		//location.href = await result;
-	})
+    });
+
+    function selectURL()
+    {
+        urlInput.select();
+    }
+
+    async function copyToClipboard()
+    {
+        isCopied = true;
+        isCopying = true;
+        const url = await result;
+        
+        await navigator.clipboard.writeText(url);
+        isCopying = false;
+
+        await sleep(2000);
+        isCopied = false;
+    }
 </script>
 
 <Editor bind:value id="main"></Editor>
@@ -23,10 +46,27 @@
     <div class="modal-content">
         <div class="box">
             {#await result}
-                Pasting...
+                <progress class="progress is-primary" max="100"></progress>
             {:then url}
                 {#if url != undefined}
-                    <a href={url}>{url}</a>
+                    <div class="field has-addons">
+                        <div class="control is-expanded has-icons-left">
+                            <input class="input" type="text" placeholder="URL" readonly value={url} on:click={selectURL} bind:this={urlInput}/>
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-link"></i>
+                            </span>
+                        </div>
+                        <div class="control">
+                            <button class="button is-primary" class:is-loading={isCopying} class:is-static={isCopied} on:click={copyToClipboard}>
+                                <i class="fas fa-clipboard"></i> &nbsp; 
+                                {#if isCopied}
+                                    Copied!
+                                {:else}
+                                    Copy to clipboard
+                                {/if}
+                            </button>
+                        </div>
+                    </div>
                 {/if}
             {/await}
         </div>

@@ -1,5 +1,5 @@
 <svelte:head>
-	<title>Create new paste</title>
+	<title>Codebin - Create new paste</title>
 </svelte:head>
 
 

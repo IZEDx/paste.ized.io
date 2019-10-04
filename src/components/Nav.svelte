@@ -1,7 +1,15 @@
-<script>
+<script lang="ts">
 	import {trigger} from "../libs/events";
-	export let segment;
+	export let segment: any;
 	let expandNav = false;
+	let isPasting = false;
+
+	async function paste()
+	{
+		isPasting = true;
+		await Promise.all(trigger("paste"));
+		isPasting = false;
+	}
 </script>
 
 <!---
@@ -36,7 +44,7 @@
 		<div class="navbar-end is-hidden-touch">
 			<div class="navbar-item">
 				<div class="buttons">
-					<button class="button is-primary" on:click={() => trigger("paste")}>
+					<button class="button is-primary" class:is-loading={isPasting} on:click={paste}>
 						Paste
 					</button>
 				</div>
@@ -46,7 +54,7 @@
 </nav>
 
 <div class="mobile-buttons is-hidden-desktop">
-	<button class="button is-primary" on:click={() => trigger("paste")}>
+	<button class="button is-primary" class:is-loading={isPasting} on:click={paste}>
 		Paste
 	</button>
 </div>

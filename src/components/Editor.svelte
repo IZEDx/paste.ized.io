@@ -7,8 +7,10 @@
     let el!: HTMLElement;
     let showLoading = true;
     let editor: any;
-    
-    $: if (editor) editor.value = value;
+
+    $: if (editor && editor.value !== value) {
+        editor.value = value;
+    }
 
     onMount(async () => 
     {

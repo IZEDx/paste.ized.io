@@ -7,7 +7,7 @@
 	"start_url": "/",
 	"icons": [
 		{
-			"src": "codebin-icon",
+			"src": "codebin-icon.png",
 			"sizes": "145x145",
 			"type": "image/png"
 		}

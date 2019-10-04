@@ -3,7 +3,7 @@
   "description": "",
   "version": "0.0.1",
   "bin": {
-    "secbin": "./codebin.js"
+    "codebin": "./codebin.js"
   },
   "scripts": {
     "dev": "sapper dev",

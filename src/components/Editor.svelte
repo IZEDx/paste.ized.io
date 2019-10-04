@@ -4,6 +4,8 @@
 
     export let value = "";
     export let id!: string;
+    export let theme = "vs-dark";
+    export let language = "javascript";
     let el!: HTMLElement;
     let showLoading = true;
     let editor: any;
@@ -11,6 +13,8 @@
     $: if (editor && editor.value !== value) {
         editor.value = value;
     }
+    $: if (editor) editor.theme = theme;
+    $: if (editor) editor.language = language;
 
     onMount(async () => 
     {
@@ -21,7 +25,9 @@
             const createEditor = () => {
                 if (editor) editor.monaco.dispose();
                 showLoading = true;
-                editor = new Editor(el, value);
+                editor = new Editor(el, {
+                    value, theme, language
+                });
 
                 const timer = setInterval(() => {
                     if (el && el.querySelector(".monaco-editor"))

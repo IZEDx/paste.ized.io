@@ -5,6 +5,7 @@ const events = new Map<string, Function[]>();
 export interface Events
 {
     paste(): MaybePromise<void>;
+    changeLanguage(language: string): MaybePromise<void>;
 }
 
 

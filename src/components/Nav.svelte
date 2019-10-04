@@ -1,8 +1,14 @@
 <script lang="ts">
+    import {onMount} from "svelte";
 	import {trigger} from "../libs/events";
+	import {Editor} from "../libs/editor";
+	import {isBrowser} from "../libs/utils";
+
 	export let segment: any;
 	let expandNav = false;
 	let isPasting = false;
+	let languages: {id: string}[] = [];
+	let languageSelect: HTMLSelectElement;
 
 	async function paste()
 	{
@@ -10,6 +16,15 @@
 		await Promise.all(trigger("paste"));
 		isPasting = false;
 	}
+
+    onMount(async () => 
+    {
+        if (isBrowser())
+        {
+			const {Editor} = await import("../libs/editor");
+			languages = Editor.getLanguages();
+		}
+	});
 </script>
 
 <!---
@@ -42,6 +57,15 @@
 		</div>
 
 		<div class="navbar-end is-hidden-touch">
+			<div class="navbar-item">
+				<div class="select">
+					<select on:change={() => trigger("changeLanguage", languageSelect)} bind:this={languageSelect}>
+						{#each languages as lang}
+							<option>{lang.id}</option>
+						{/each}
+					</select>
+				</div>
+			</div>
 			<div class="navbar-item">
 				<div class="buttons">
 					<button class="button is-primary" class:is-loading={isPasting} on:click={paste}>

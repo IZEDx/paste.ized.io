@@ -24,13 +24,14 @@ export class Editor
 {
     public monaco: monaco.editor.IStandaloneCodeEditor;
 
-    constructor(public el: HTMLElement, value = "")
+    constructor(public el: HTMLElement, private overrides: monaco.editor.IEditorOverrideServices = {})
     {
-        this.monaco = monaco.editor.create(this.el, {
-			value: value,
-            language: 'javascript',
-            theme: "vs-dark"
-        });
+        this.monaco = monaco.editor.create(this.el, overrides);
+    }
+    
+    static getLanguages()
+    {
+        return monaco.languages.getLanguages();
     }
 
     set value(v: string)
@@ -41,6 +42,29 @@ export class Editor
     get value()
     {
         return this.monaco.getValue();
+    }
+
+
+    set language(lang: string)
+    {
+        this.overrides.language = lang;
+        this.monaco.updateOptions(this.overrides);
+    }
+
+    get language()
+    {
+        return this.overrides.language;
+    }
+
+    set theme(theme: string)
+    {
+        this.overrides.theme = theme;
+        this.monaco.updateOptions(this.overrides);
+    }
+
+    get theme()
+    {
+        return this.overrides.theme;
     }
 }
 

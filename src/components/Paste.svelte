@@ -12,6 +12,7 @@
     let showResult = false;
     let isCopying = false;
     let isCopied = false;
+    let language = "javascript";
 
     listen("paste", async () =>
 	{   
@@ -19,6 +20,11 @@
         await result;
         showResult = true;
 		//location.href = await result;
+    });
+
+    listen("changeLanguage", async (lang: string) =>
+    {
+        language = lang;
     });
 
     function selectURL()
@@ -43,7 +49,7 @@
     }
 </script>
 
-<Editor bind:value></Editor>
+<Editor bind:value language={language}></Editor>
 <div class="modal" class:is-active={showResult}>
     <div class="modal-background" on:click={() => showResult = false}></div>
     <div class="modal-content">
@@ -75,4 +81,4 @@
         </div>
     </div>
     <button class="modal-close is-large" aria-label="close" on:click={() => showResult = false}></button>
-</div>
+</div> 

@@ -1,19 +1,14 @@
 {
-	"background_color": "#ffffff",
-	"theme_color": "#333333",
-	"name": "secbin",
-	"short_name": "secbin",
+	"background_color": "#363636",
+	"theme_color": "#920b4b",
+	"name": "Codebin",
+	"short_name": "codebin",
 	"display": "minimal-ui",
 	"start_url": "/",
 	"icons": [
 		{
-			"src": "logo-192.png",
-			"sizes": "192x192",
-			"type": "image/png"
-		},
-		{
-			"src": "logo-512.png",
-			"sizes": "512x512",
+			"src": "codebin-icon",
+			"sizes": "142x143",
 			"type": "image/png"
 		}
 	]

@@ -13,7 +13,10 @@
 	let value = "Loading...";
 	export let id;
 
-	$: if (isBrowser()) read(id, location.hash.slice(1)).then(v => value = v);
+	$: if (isBrowser()) read(id, location.hash.slice(1)).then(v => {
+		console.log(v);
+		value = v;
+	});
 </script>
 
 <svelte:head>

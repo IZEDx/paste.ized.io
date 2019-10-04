@@ -28,6 +28,8 @@
 
     async function copyToClipboard()
     {
+        if (isCopied) return;
+
         isCopied = true;
         isCopying = true;
         const url = await result;
@@ -57,7 +59,7 @@
                             </span>
                         </div>
                         <div class="control">
-                            <button class="button is-primary" class:is-loading={isCopying} class:is-static={isCopied} on:click={copyToClipboard}>
+                            <button class="button is-primary" class:is-loading={isCopying} on:click={copyToClipboard}>
                                 <i class="fas fa-clipboard"></i> &nbsp; 
                                 {#if isCopied}
                                     Copied!

@@ -6,35 +6,36 @@
     export let id!: string;
     let el!: HTMLElement;
     let showLoading = true;
+    let editor: any;
+    
+    $: if (editor) editor.value = value;
 
     onMount(async () => 
     {
         if (isBrowser())
         {
             const {Editor} = await import("../libs/editor");
-            let editor = new Editor(el, value);
 
-            const timer = setInterval(() => {
-                console.log(el, el.querySelector(".monaco-editor"));
-                if (el && el.querySelector(".monaco-editor"))
-                {
-                    showLoading = false;
-                    clearInterval(timer);
-                }
-            }, 200);
+            const createEditor = () => {
+                if (editor) editor.monaco.dispose();
+                showLoading = true;
+                editor = new Editor(el, value);
 
-            editor.monaco.onDidChangeModelContent(() => {
-                value = editor.value;
-            })
+                const timer = setInterval(() => {
+                    if (el && el.querySelector(".monaco-editor"))
+                    {
+                        showLoading = false;
+                        clearInterval(timer);
+                    }
+                }, 200);
 
-            window.addEventListener("resize", e => {
-                if (el)
-                {
+                editor.monaco.onDidChangeModelContent(() => {
                     value = editor.value;
-                    editor.monaco.dispose();
-                    editor = new Editor(el, value);
-                }
-            });
+                })
+            }
+            createEditor();
+
+            window.addEventListener("resize", e => el && createEditor());
         }
     });
 </script>

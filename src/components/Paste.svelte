@@ -26,6 +26,7 @@
         urlInput.select();
     }
 
+
     async function copyToClipboard()
     {
         if (isCopied) return;
@@ -42,7 +43,7 @@
     }
 </script>
 
-<Editor bind:value id="main"></Editor>
+<Editor bind:value></Editor>
 <div class="modal" class:is-active={showResult}>
     <div class="modal-background" on:click={() => showResult = false}></div>
     <div class="modal-content">

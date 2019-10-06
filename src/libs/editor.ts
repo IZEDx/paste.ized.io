@@ -1,5 +1,6 @@
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
 require("monaco-editor/esm/vs/basic-languages/monaco.contribution");
+import "./errorLanguage";
 
 type InitFunction = (monaco: monaco.editor.IStandaloneCodeEditor) => void;
 type ChangeFunction = (content: string) => void;

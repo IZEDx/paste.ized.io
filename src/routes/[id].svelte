@@ -14,11 +14,16 @@
 	let value = "Loading...";
 	export let id;
 
-	$: if (isBrowser()) read(id, location.hash.slice(1)).then(async data => {
-		value = data.content;
-		await sleep(1000);
-		trigger("changeLanguage", data.language);
-	});
+	$: if (isBrowser()) read(id, location.hash.slice(1))
+		.then(async data => {
+			value = data.content;
+			await sleep(1000);
+			trigger("changeLanguage", data.language);
+		})
+		.catch(error => {
+			value = error.response.status + "\n" + error.response.statusText;
+			trigger("changeLanguage", "http-error");
+		});
 </script>
 
 <svelte:head>

@@ -24,9 +24,10 @@ export async function read(id: string, salt: string): Promise<{content: string, 
 {
     salt = "$2a$10$" + salt;
     
-    const {cipher, language} = (await axios.get(`./paste/${id}.json`)).data;
-    const key = await hash(id, salt);
+    const response = await axios.get(`./paste/${id}.json`);
+    const {cipher, language, status} = response.data;
 
+    const key = await hash(id, salt);
     const content = AES.decrypt(cipher, key).toString(enc.Utf8);
 
     return {content, language};

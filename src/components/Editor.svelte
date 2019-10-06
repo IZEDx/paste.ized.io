@@ -3,12 +3,11 @@
     import {isBrowser} from "../libs/utils";
 
     export let value = "";
-    export let theme = "vs-dark";
+    export let theme = "vs-dark-with-errors";
     export let language = "javascript";
     let el!: HTMLElement;
     let showLoading = true;
     let editor: any;
-    const onLanguageChanged = (lang: string) => {};
 
     $: if (editor && editor.value !== value) editor.value = value;
     $: if (editor) editor.theme = theme;

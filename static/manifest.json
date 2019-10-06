@@ -3,7 +3,7 @@
 	"theme_color": "#920b4b",
 	"name": "Codebin",
 	"short_name": "codebin",
-	"display": "minimal-ui",
+	"display": "standalone",
 	"start_url": "/",
 	"icons": [
 		{

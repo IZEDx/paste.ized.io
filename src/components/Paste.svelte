@@ -12,11 +12,11 @@
     let showResult = false;
     let isCopying = false;
     let isCopied = false;
-    let language = "javascript";
+    export let language = "javascript";
 
     listen("paste", async () =>
 	{   
-        result = paste(value);
+        result = paste(value, language);
         await result;
         showResult = true;
 		//location.href = await result;
@@ -66,7 +66,7 @@
                             </span>
                         </div>
                         <div class="control">
-                            <button class="button is-primary" class:is-loading={isCopying} on:click={copyToClipboard}>
+                            <button class="button is-primary" disabled={isCopied} class:is-loading={isCopying} on:click={copyToClipboard}>
                                 <i class="fas fa-clipboard"></i> &nbsp; 
                                 {#if isCopied}
                                     Copied!

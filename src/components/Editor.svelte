@@ -3,16 +3,14 @@
     import {isBrowser} from "../libs/utils";
 
     export let value = "";
-    export let id!: string;
     export let theme = "vs-dark";
     export let language = "javascript";
     let el!: HTMLElement;
     let showLoading = true;
     let editor: any;
+    const onLanguageChanged = (lang: string) => {};
 
-    $: if (editor && editor.value !== value) {
-        editor.value = value;
-    }
+    $: if (editor && editor.value !== value) editor.value = value;
     $: if (editor) editor.theme = theme;
     $: if (editor) editor.language = language;
 
@@ -20,30 +18,18 @@
     {
         if (isBrowser())
         {
+            showLoading = true;
             const {Editor} = await import("../libs/editor");
+            editor = new Editor(el, {
+                value, theme, language
+            });
 
-            const createEditor = () => {
-                if (editor) editor.monaco.dispose();
-                showLoading = true;
-                editor = new Editor(el, {
-                    value, theme, language
-                });
+            editor.onChange((v: string) => {
+                value = v;
+            });
 
-                const timer = setInterval(() => {
-                    if (el && el.querySelector(".monaco-editor"))
-                    {
-                        showLoading = false;
-                        clearInterval(timer);
-                    }
-                }, 200);
-
-                editor.monaco.onDidChangeModelContent(() => {
-                    value = editor.value;
-                })
-            }
-            createEditor();
-
-            window.addEventListener("resize", e => el && createEditor());
+            window.addEventListener("resize", e => editor.refresh());
+            showLoading = false;
         }
     });
 </script>

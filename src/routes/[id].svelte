@@ -8,13 +8,16 @@
 
 <script>
 	import {read} from "../libs/secbin";
-	import {isBrowser} from "../libs/utils";
+	import {isBrowser, sleep} from "../libs/utils";
+	import {trigger} from "../libs/events";
 	import Paste from "../components/Paste.svelte";
 	let value = "Loading...";
 	export let id;
 
-	$: if (isBrowser()) read(id, location.hash.slice(1)).then(v => {
-		value = v;
+	$: if (isBrowser()) read(id, location.hash.slice(1)).then(async data => {
+		value = data.content;
+		await sleep(1000);
+		trigger("changeLanguage", data.language);
 	});
 </script>
 
